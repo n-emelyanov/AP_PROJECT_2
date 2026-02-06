@@ -32,11 +32,21 @@ async def cmd_help(message: Message):
 
 @router.message(Command("set_profile"))
 async def start_profile(message: Message, state: FSMContext):
+    # Обнуляем все данные пользователя
     users[message.chat.id] = {
+        'weight': 0,
+        'height': 0,
+        'age': 0,
+        'activity': 0,
+        'city': '',
+        'water_goal': 0,
+        'calorie_goal': 0,
         'logged_water': 0,
         'logged_calories': 0,
         'burned_calories': 0,
     }
+    # Очищаем состояние FSM
+    await state.clear()
     await message.answer("Введите ваш вес (в кг):")
     await state.set_state(Profile.weight)
 
